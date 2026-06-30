@@ -17,31 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore PhotographyCard-unpacked/PhotographyCard.csproj
-
-      - name: Build
-        run: dotnet build PhotographyCard-unpacked/PhotographyCard.csproj --configuration Release --no-restore
-
-      - name: Publish
-        run: dotnet publish PhotographyCard-unpacked/PhotographyCard.csproj --configuration Release --output publish
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: publish/wwwroot
+          path: PhotographyCard-unpacked/static-export
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
